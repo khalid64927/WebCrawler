@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WebCrawler</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="links_count">Links count :</string>
+    <string name="processed_links_count">Processed links count :</string>
+    <string name="no_network">No Network</string>
+     <string name="error_count">Error links count :</string>
+    <string name="begin_text">Begin</string> 
+    <string name="cancle_text">Stop </string>
+    <string name="pause_text">Pause</string>
+     <string name="resume_text">Resume</string>
+    <string name="enter_url">Enetr URL</string>
+    <string name="url_check_title">Enter correct URL</string>
+    <string name="url_check_body">Enter correct URL Example: http://www.google.com/</string>
+    <string name="current_link">Current link:</string>
+
+</resources>
