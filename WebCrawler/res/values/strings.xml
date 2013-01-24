@@ -12,7 +12,7 @@
     <string name="cancle_text">Stop </string>
     <string name="pause_text">Pause</string>
      <string name="resume_text">Resume</string>
-    <string name="enter_url">Enetr URL</string>
+    <string name="enter_url">Enter URL</string>
     <string name="url_check_title">Enter correct URL</string>
     <string name="url_check_body">Enter correct URL Example: http://www.google.com/</string>
     <string name="current_link">Current link:</string>
