@@ -64,9 +64,6 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 			mButton1.setText(R.string.cancle_text);
 			Toast.makeText(this, "Starting Crawler", Toast.LENGTH_SHORT).show();
 			URLPool.getInstance().push(mPageURL);
-			System.out.println(" seed url "+mPageURL);
-			System.out.println(" >>>>>>????????????????????>>>>>>> size "
-					+ URLPool.getInstance().getUrlPoolSize());
 			startCrawling();
 		}
 	}
