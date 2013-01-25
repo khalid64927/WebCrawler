@@ -47,12 +47,12 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 public class HTTPRequest {
-	private ArrayList<NameValuePair> params;
-	private ArrayList<NameValuePair> headers;
-	private String url;
-	private int responseCode;
-	private String message;
-	private String responseString;
+	private ArrayList<NameValuePair> mParams;
+	private ArrayList<NameValuePair> mHeaders;
+	private String mURL;
+	private int mResponseCode;
+	private String mMessage;
+	private String mResponseString;
 	private static final String TAG = "HTTPRequest";
 	private InputStream mMediaStream;
 	private int mBuffferSize;
@@ -63,17 +63,17 @@ public class HTTPRequest {
 	}
 
 	public HTTPRequest(String url) {
-		this.url = url;
-		params = new ArrayList<NameValuePair>();
-		headers = new ArrayList<NameValuePair>();
+		this.mURL = url;
+		mParams = new ArrayList<NameValuePair>();
+		mHeaders = new ArrayList<NameValuePair>();
 	}
 
 	public void addParam(String name, String value) {
-		params.add(new BasicNameValuePair(name, value));
+		mParams.add(new BasicNameValuePair(name, value));
 	}
 
 	public void addHeader(String name, String value) {
-		headers.add(new BasicNameValuePair(name, value));
+		mHeaders.add(new BasicNameValuePair(name, value));
 	}
 	
 	public boolean checkContent(String urlString){
@@ -101,17 +101,17 @@ public class HTTPRequest {
 		case GET: {
 			// Add parameters
 			String combinedParams = "";
-			if (!params.isEmpty()) {
-				httpParams = setParams(params);
+			if (!mParams.isEmpty()) {
+				httpParams = setParams(mParams);
 			}
 
-			HttpGet request = new HttpGet(url);
+			HttpGet request = new HttpGet(mURL);
 
 			// Add headers
-			for (NameValuePair h : headers)
+			for (NameValuePair h : mHeaders)
 				request.addHeader(h.getName(), h.getValue());
 
-			executeRequest(request, url, httpParams);
+			executeRequest(request, mURL, httpParams);
 			break;
 		}
 		case POST: {
@@ -153,9 +153,9 @@ public class HTTPRequest {
 			httpResponse = client.execute(request);
 			
 			
-			responseCode = httpResponse.getStatusLine().getStatusCode();
+			mResponseCode = httpResponse.getStatusLine().getStatusCode();
 			
-			message = httpResponse.getStatusLine().getReasonPhrase();
+			mMessage = httpResponse.getStatusLine().getReasonPhrase();
 			HttpEntity entity = httpResponse.getEntity();
 			InputStream instream;
 			instream = entity.getContent();
@@ -167,7 +167,7 @@ public class HTTPRequest {
 					if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
 					    instream = new GZIPInputStream(instream);
 					}
-					responseString = convertStreamToString(instream);
+					mResponseString = convertStreamToString(instream);
 					// Closing the input stream will trigger connection release
 					instream.close();
 				}else{
@@ -226,15 +226,15 @@ public class HTTPRequest {
 	}
 
 	public String getResponseString() {
-		return responseString;
+		return mResponseString;
 	}
 
 	public String getErrorMessage() {
-		return message;
+		return mMessage;
 	}
 
 	public int getResponseCode() {
-		return responseCode;
+		return mResponseCode;
 	}
 
 	public int getmBuffferSize() {

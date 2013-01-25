@@ -10,7 +10,7 @@ public class GetLinksService implements Runnable{
 	private static final String TAG = "GetLinksService";
 	private String mURL;
 	private ICrawlerReportable report;
-	private com.khalid.crawler.HTTPRequest request;
+	private com.khalid.crawler.HTTPRequest mRequest;
 	private CrawlLinks mCrawlLinks;
 	
 	/**
@@ -21,7 +21,7 @@ public class GetLinksService implements Runnable{
 	public GetLinksService(String url, ICrawlerReportable report) {
 		this.mURL = url;
 		this.report = report;
-		request = new com.khalid.crawler.HTTPRequest(mURL);
+		mRequest = new com.khalid.crawler.HTTPRequest(mURL);
 	}
 	
 	public void run()
@@ -72,9 +72,9 @@ public class GetLinksService implements Runnable{
 		String response = null;
 		try
 		{
-			request.addHeader("Accept-Encoding", "gzip");
-			request.execute(com.khalid.crawler.HTTPRequest.RequestMethod.GET);
-			response = request.getResponseString();
+			mRequest.addHeader("Accept-Encoding", "gzip");
+			mRequest.execute(com.khalid.crawler.HTTPRequest.RequestMethod.GET);
+			response = mRequest.getResponseString();
 		}
 		catch(Exception e)
 		{
