@@ -82,7 +82,7 @@ public class Utility {
 			Toast.makeText(context, "Enter Seed URL", Toast.LENGTH_SHORT).show();
 			isValid = false;
 		}else if(!checkLink(url)){
-			Toast.makeText(context, "Improper URL Please enter valid URL example \n http://www.google.com \n https://www.google.com ", Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Improper URL Please enter valid URL example \n http://www.wikipedia.org \n https://www.google.com ", Toast.LENGTH_LONG).show();
 			isValid = false;
 		}
 		return isValid;

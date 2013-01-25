@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.khalid.crawler.entities.CrawlLinks;
 import com.khalid.crawler.interfaces.ICrawlerReportable;
-import com.khalid.crawler.queue.URLPool;
 
 public class GetLinksService implements Runnable{
 	private static final String TAG = "GetLinksService";
@@ -36,14 +35,6 @@ public class GetLinksService implements Runnable{
 		}
 		
 		report.finished();
-	}
-
-	/**
-	 * function which adds single URL to URLPool 
-	 *@param1 String: URL to be processed
-	 */
-	private void addURL(String url) {
-		URLPool.getInstance().push(url);
 	}
 
 	/**

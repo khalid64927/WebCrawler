@@ -1,11 +1,6 @@
 package com.khalid.crawler.activities;
 
-import java.util.Collection;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -32,16 +27,11 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 	private static final String TAG = "CrawlerActivity";
 	private EditText mUrl;
 	private Button mButton1;
-	private Button mButton2;
 	private TextView mCurrentLinkText;
 	private TextView mLinksCountText;
 	private TextView mProcessedLinksCountText;
 	private String mPageURL;
-	private Context mContext;
 	private boolean mIsActive = false;
-	private boolean mPoolReached = false;
-	ExecutorService mExecutor;
-	Collection<Future<?>> mFuture;
 	private ProgressBar mProgressBar;
 
 	@Override
@@ -50,7 +40,6 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 		setContentView(R.layout.activity_crawler);
 
 		// initializing UI elements
-		mContext = getApplicationContext();
 		mUrl = (EditText) findViewById(R.id.urlEditText);
 		mButton1 = (Button) findViewById(R.id.beginButton);
 		mCurrentLinkText = (TextView) findViewById(R.id.currentLinkTextView);
@@ -68,7 +57,6 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 			return;
 		}
 		mPageURL = mUrl.getText().toString();
-		// mPageURL = "http://www.wikipedia.org/";
 		if (mIsActive) {
 			stopCrawling();
 		} else {
@@ -103,7 +91,6 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 			*/
 			String pageURL = URLPool.getInstance().pop();
 			if (!TextUtils.isEmpty(pageURL)) {
-				
 				Log.v("startCrawling", pageURL);
 				GetLinksService service = new GetLinksService(pageURL, this);
 				ApplicationEx.operationsQueue.execute(service);
@@ -144,14 +131,6 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 			progressStop();
 		}
 	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		//stopCrawling();
-	}
-	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -165,9 +144,7 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 		message.what = 1;
 		message.obj = (String) urlString;
 		crawlerHandler.sendMessage(message);
-
 	}
-
 	@Override
 	public void spiderURLProcessed(int processedURLCount) {
 		// Log.v(TAG, "spiderURLProcessed " + processedURLCount);
@@ -205,15 +182,10 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 				mProcessedLinksCountText
 						.setText(getString(R.string.processed_links_count)
 								+ " " + msg.obj);
-				// avoid calling crawl again when shutdown has been called either due to pool size limit has reached or by user 
-				/*if (!((ApplicationEx.operationsQueue.isShutdown()) && (!mIsActive))) {
-					startCrawling();
-				}*/
 			}
 
 			// pool size reached
 			if (msg.what == 4) {
-				mPoolReached = true;
 				stopCrawling();
 			}
 			if (msg.what == 5){
@@ -222,22 +194,12 @@ public class CrawlerActivity extends Activity implements ICrawlerReportable,
 				if((!ApplicationEx.operationsQueue.isShutdown())&&(mIsActive)&&(!URLPool.getInstance().hasPoolSizeReached())){
 					startCrawling();
 				}
-				/*if(!((ApplicationEx.operationsQueue.isShutdown())&&(!mIsActive)&&(URLPool.getInstance().hasPoolSizeReached()))){
-					startCrawling();
-				if (!((ApplicationEx.operationsQueue.isShutdown()) && (!mIsActive))) {
-					startCrawling();
-				}
-				}*/
 			}
 				
 			
 		};
 	};
 
-	protected void onResume() {
-		super.onResume();
-		//URLPool.getInstance().clear();
-	};
 	
 	@Override
 	public void finished() {

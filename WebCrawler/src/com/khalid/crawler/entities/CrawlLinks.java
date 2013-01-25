@@ -45,7 +45,7 @@ public class CrawlLinks {
 			String strLink = st.nextToken();
 
 			if((TextUtils.equals(strLink, "javascript:void(0)"))||(TextUtils.equals(strLink, "javascript:void(0);"))){
-				// avoiding ajax calls
+				// avoiding javscript calls
 				continue;
 			}
 			if (!checkLinks(strLink)) {
@@ -59,10 +59,10 @@ public class CrawlLinks {
 				.getUrlProcessedPoolSize());
 	}
 
-	public void addLink(String url) {
+	private void addLink(String url) {
 		if(!ApplicationEx.operationsQueue.isShutdown()){
 			
-		if ((URLPool.getInstance().push(url))&&((URLPool.getInstance().getUrlPoolSize() != URLPool.getInstance().POOL_LIMIT ))) {
+		if ((URLPool.getInstance().push(url))&&(!URLPool.getInstance().hasPoolSizeReached())) {
 			report.spiderFoundURL(url);
 			report.spiderLinkCounts(URLPool.getInstance().getUrlPoolSize());
 			// Log.v("addLink", url);
